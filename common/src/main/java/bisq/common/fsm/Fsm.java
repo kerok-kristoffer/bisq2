@@ -176,6 +176,10 @@ public abstract class Fsm<M extends FsmModel> {
         }
     }
 
+    protected Map<Pair<State, Class<? extends Event>>, Transition> getTransitionMap() {// todo added for now to allow access from tests - implement proper accessors before actual prototyping
+        return transitionMap;
+    }
+
     public static class TransitionBuilder<M extends FsmModel> {
         private final Transition transition;
         private final Fsm<M> fsm;

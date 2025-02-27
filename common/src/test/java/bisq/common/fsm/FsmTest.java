@@ -612,7 +612,7 @@ public class FsmTest {
             this.data = data;
         }
 
-        private String data = null;
+        public String data = null;
     }
 
 }
