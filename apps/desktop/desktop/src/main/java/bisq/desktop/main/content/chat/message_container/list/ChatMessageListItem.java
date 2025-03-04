@@ -232,8 +232,8 @@ public final class ChatMessageListItem<M extends ChatMessage, C extends ChatChan
         return chatMessage.getChatMessageType() == LEAVE;
     }
 
-    public boolean isExchangeInfoWarningMessage() {
-        return chatMessage.getChatMessageType() == EXCHANGE_INFO_WARNING;
+    public boolean isChatRulesWarningMessage() {
+        return chatMessage.getChatMessageType() == CHAT_RULES_WARNING;
     }
 
     public String getSupportedLanguageCodes(BisqEasyOfferbookMessage chatMessage) {
