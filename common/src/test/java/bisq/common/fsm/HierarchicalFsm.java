@@ -45,6 +45,10 @@ public class HierarchicalFsm<M extends FsmModel> extends Fsm<M> {
         getTransitionMap().putAll(subTransitions);
     }
 
+    public void registerAllSubTransitions() {
+        subFsms.forEach(subFsm -> getTransitionMap().putAll(subFsm.getTransitionMap()));
+    }
+
     @Override
     protected EventHandler newEventHandlerFromClass(Class<? extends EventHandler> handlerClass) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         return handlerClass.getDeclaredConstructor().newInstance();

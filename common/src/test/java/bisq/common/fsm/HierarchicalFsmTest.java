@@ -40,9 +40,7 @@ public class HierarchicalFsmTest {
             // the other option is to let the Fsm handle() method look for subFsm transitions before throwing an exception and setting State to Error
                 // this would require a more complex implementation of the Fsm.handle() method
                 // pros are more separation of concerns, cons are more complexity and potential impact on BisqEasy cases
-        fsm.registerSubTransitions(fsm.subFsmA.getTransitionMap());
-        fsm.registerSubTransitions(fsm.subFsmB.getTransitionMap());
-
+        fsm.registerAllSubTransitions();
 
         fsm.handle(new FsmTest.MockEvent1(model, "test1"));
         assertEquals(FsmTest.MockState.S1, model.getState());
@@ -81,7 +79,7 @@ public class HierarchicalFsmTest {
                 .on(FsmTest.MockEvent2.class)
                 .run(FsmTest.MockEventHandler.class)
                 .to(FsmTest.MockState.S3);
-        fsm.registerSubTransitions(fsm.subFsmA.getTransitionMap());
+        fsm.registerAllSubTransitions();
 
         assertEquals(FsmTest.MockState.INIT, model.getState());
         assertNull(model.data);
@@ -151,8 +149,7 @@ public class HierarchicalFsmTest {
                 .run(FsmTest.MockEventHandler.class)
                 .to(FsmTest.MockState.COMPLETED);
 
-        fsm.registerSubTransitions(fsm.subFsmA.getTransitionMap());
-        fsm.registerSubTransitions(fsm.subFsmB.getTransitionMap());
+        fsm.registerAllSubTransitions();
 
         fsm.handle(new FsmTest.MockEvent3(model, "test3"));
         assertEquals(FsmTest.MockState.INIT, model.getState());
