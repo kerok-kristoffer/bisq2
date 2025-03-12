@@ -22,4 +22,11 @@ dependencies {
     implementation("network:network-identity:$version")
 
     implementation(libs.typesafe.config)
+
+    testImplementation("org.mockito:mockito-inline:4.0.0") // enabling mocking of TradeService
+}
+
+
+tasks.withType<Test> {
+    jvmArgs("--add-opens=java.base/java.lang=ALL-UNNAMED", "-Dnet.bytebuddy.experimental=true", "-XX:+EnableDynamicAgentLoading")
 }
