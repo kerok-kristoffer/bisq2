@@ -28,6 +28,7 @@ import bisq.persistence.PersistenceService;
 import bisq.settings.SettingsService;
 import bisq.support.SupportService;
 import bisq.trade.bisq_easy.BisqEasyTradeService;
+import bisq.trade.bisq_musig.BisqMuSigTradeService;
 import bisq.user.UserService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ import java.util.concurrent.CompletableFuture;
 @Getter
 public class TradeService implements Service, ServiceProvider {
     private final BisqEasyTradeService bisqEasyTradeService;
+    private final BisqMuSigTradeService bisqMusigTradeService; // added for prototype test to access tradeProtocolById
     private final NetworkService networkService;
     private final IdentityService identityService;
     private final PersistenceService persistenceService;
@@ -71,6 +73,7 @@ public class TradeService implements Service, ServiceProvider {
         this.settingsService = settingsService;
 
         bisqEasyTradeService = new BisqEasyTradeService(this);
+        bisqMusigTradeService = new BisqMuSigTradeService(this); // add to initialize and shutdown
     }
 
 

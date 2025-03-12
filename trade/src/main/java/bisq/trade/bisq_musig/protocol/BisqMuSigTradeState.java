@@ -24,12 +24,41 @@ import lombok.ToString;
 @ToString
 @Getter
 public enum BisqMuSigTradeState implements State {
+    // Deposit & Key Aggregation Phase
     INIT,
+    DEPOSIT_INIT,
+    PRE_SIGNED_TRANSACTIONS_RECEIVED,
+    KEY_AGGREGATED,
+    DEPOSIT_COMPLETED,
 
-    STATE1,
-    STATE2,
+    // Fiat Payment Confirmation Phase
+    AWAITING_FIAT_CONFIRMATION,
+    // Potential intermediate States to be added
+    FIAT_CONFIRMED,
 
-    COMPLETED(true);
+    // Key Exchange / Swap Phase
+    KEY_EXCHANGE_INIT,
+    // Potential intermediate States to be added
+    KEY_EXCHANGE_COMPLETE,
+
+    // Finalization Phase
+    FINALIZATION_INIT,
+    // Potential intermediate States to be added
+    FINALIZATION_COMPLETE,
+
+    WARNING_TX_RECEIVED,
+    WARNING_TX_CONTINUED,
+    REDIRECT_TX_RECEIVED,
+    WARNING_TX_RECEIVED_AND_T1_EXPIRED,
+    CLAIM_TX_RECEIVED,
+    CONFLICT_RESOLVED(true),
+
+    BTC_CONFIRMED(true),
+    // Global Unhappy/Error States
+    REJECTED(true),
+    CANCELLED(true),
+    FAILED(true),
+    FAILED_AT_PEER(true);
 
     private final boolean isFinalState;
     private final int ordinal;

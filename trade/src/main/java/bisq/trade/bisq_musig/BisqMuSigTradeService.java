@@ -50,6 +50,7 @@ public class BisqMuSigTradeService implements PersistenceClient<BisqMuSigTradeSt
     private final Persistence<BisqMuSigTradeStore> persistence;
 
     // We don't persist the protocol, only the model.
+    @Getter // @Getter temporarily added for prototype test to orchestrate active Fsm
     private final Map<String, BisqMuSigProtocol> tradeProtocolById = new ConcurrentHashMap<>();
     private final ServiceProvider serviceProvider;
     private final NetworkService networkService;
