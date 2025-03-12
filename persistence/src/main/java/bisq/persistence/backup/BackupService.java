@@ -61,7 +61,6 @@ import java.util.stream.Collectors;
 @ToString
 public class BackupService {
     static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmm");
-    public static final double TOTAL_MAX_BACKUP_SIZE_IN_MB = 100;
     private static final Map<String, Long> accumulatedFileSizeByStore = new ConcurrentHashMap<>();
     @Setter
     private static double totalMaxBackupSize = ByteUnit.MB.toBytes(100);
@@ -140,6 +139,7 @@ public class BackupService {
             return;
         }
 
+        // TODO Consider to let that run in a background thread
         accumulatedFileSize = 0;
         Set<String> fileNames = FileUtils.listFiles(dirPath);
         List<BackupFileInfo> backupFileInfoList = createBackupFileInfo(fileName, fileNames);
@@ -246,7 +246,8 @@ public class BackupService {
 
     @VisibleForTesting
     static Path resolveDirPath(Path dataDir, Path storeFilePath) {
-        String relativeStoreFilePath = getRelativePath(dataDir, storeFilePath);
+        boolean isWindowsPath = dataDir.toString().contains("\\");
+        String relativeStoreFilePath = getRelativePath(dataDir, storeFilePath, isWindowsPath);
         String relativeBackupDir = relativeStoreFilePath
                 .replaceFirst("db", "backups")
                 .replace(Persistence.EXTENSION, "")
@@ -256,9 +257,8 @@ public class BackupService {
     }
 
     @VisibleForTesting
-    static String getRelativePath(Path dataDir, Path filePath) {
+    static String getRelativePath(Path dataDir, Path filePath, boolean isWindowsPath) {
         // We don't use File.pathSeparator as we use it in unit test which need to be OS independent.
-        boolean isWindowsPath = dataDir.toString().contains("\\");
         String normalizedDataDir = dataDir.toString().replace("\\", "/");
         String normalizedFilePath = filePath.toString().replace("\\", "/");
 
