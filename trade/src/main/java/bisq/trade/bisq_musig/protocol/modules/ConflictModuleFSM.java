@@ -7,18 +7,22 @@ import bisq.trade.bisq_musig.BisqMuSigTrade;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class DepositModuleFSM extends Fsm<BisqMuSigTrade> {
+public class ConflictModuleFSM extends Fsm<BisqMuSigTrade> {
 
     private final ServiceProvider serviceProvider;
 
-    public DepositModuleFSM(ServiceProvider serviceProvider, BisqMuSigTrade model) {
+    public ConflictModuleFSM(ServiceProvider serviceProvider, BisqMuSigTrade model) {
         super(model);
         this.serviceProvider = serviceProvider;
     }
 
     @Override
-    public void configTransitions() {
+    protected void configErrorHandling() {
 
+    }
+
+    @Override
+    protected void configTransitions() {
     }
 
     @Override
@@ -31,8 +35,4 @@ public class DepositModuleFSM extends Fsm<BisqMuSigTrade> {
         }
     }
 
-    @Override
-    protected void configErrorHandling() {
-        // Define error handling transitions specific to the deposit phase.
-    }
 }

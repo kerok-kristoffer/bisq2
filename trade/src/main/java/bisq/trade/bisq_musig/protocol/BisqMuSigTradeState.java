@@ -29,7 +29,7 @@ public enum BisqMuSigTradeState implements State {
     DEPOSIT_INIT,
     PRE_SIGNED_TRANSACTIONS_RECEIVED,
     KEY_AGGREGATED,
-    DEPOSIT_COMPLETED,
+    DEPOSIT_BROADCAST,
 
     // Fiat Payment Confirmation Phase
     AWAITING_FIAT_CONFIRMATION,
@@ -46,19 +46,23 @@ public enum BisqMuSigTradeState implements State {
     // Potential intermediate States to be added
     FINALIZATION_COMPLETE,
 
-    WARNING_TX_RECEIVED,
-    WARNING_TX_CONTINUED,
-    REDIRECT_TX_RECEIVED,
-    WARNING_TX_RECEIVED_AND_T1_EXPIRED,
-    CLAIM_TX_RECEIVED,
-    CONFLICT_RESOLVED(true),
+    // Conflict Resolution Phase
+    AWAITING_T1EXPIRED,
+    AWAITING_REDIRECT_TX_OR_T2EXPIRED,
+    AWAITING_REDIRECT_TX_OR_CLAIM_TX,
+    CLAIM_TX_CONFIRMED,
+    REDIRECT_TX_CONFIRMED,
 
+    // Final States,
     BTC_CONFIRMED(true),
-    // Global Unhappy/Error States
     REJECTED(true),
+    PEER_REJECTED(true),
     CANCELLED(true),
+    PEER_CANCELLED(true),
     FAILED(true),
-    FAILED_AT_PEER(true);
+    FAILED_AT_PEER(true),
+    CONFLICT_RESOLVED_REDIRECT(true),
+    CONFLICT_RESOLVED_CLAIM(true);
 
     private final boolean isFinalState;
     private final int ordinal;
